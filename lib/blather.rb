@@ -24,10 +24,14 @@ $:.unshift(File.dirname(__FILE__))
   blather/stanza/iq
   blather/stanza/iq/query
   blather/stanza/iq/roster
+  blather/stanza/iq/muc/owner
+  
   blather/stanza/disco
   blather/stanza/disco/disco_info
   blather/stanza/disco/disco_items
+  
   blather/stanza/message
+  
   blather/stanza/presence
   blather/stanza/presence/status
   blather/stanza/presence/subscription
@@ -49,7 +53,7 @@ $:.unshift(File.dirname(__FILE__))
   blather/stanza/pubsub_owner/purge
   
   blather/stanza/muc/invite
-  blather/stanza/muc/x
+  blather/stanza/muc/join
 
   blather/stream
   blather/stream/client
