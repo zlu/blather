@@ -24,6 +24,7 @@ $:.unshift(File.dirname(__FILE__))
   blather/stanza/iq
   blather/stanza/iq/query
   blather/stanza/iq/roster
+  blather/stanza/iq/muc/admin
   blather/stanza/iq/muc/owner
   
   blather/stanza/disco
