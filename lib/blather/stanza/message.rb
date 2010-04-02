@@ -171,7 +171,7 @@ class Stanza
         ns = e.namespace ? e.namespace.href : nil
         klass = class_from_registration(e.element_name, ns)
       end
-
+      
       if klass && klass != self
         klass.import(node)
       else
