@@ -329,6 +329,13 @@ class Stanza
       set_content_for :thread, thread
       find_first('thread')[:parent] = parent
     end
+    
+    def delay
+      delay = find_first('ns:x', :ns => 'jabber:x:delay')
+      return unless delay
+      klass = (Time.respond_to?(:zone) && Time.zone) || Time
+      klass.parse(delay[:stamp])
+    end
   end
 
 end
