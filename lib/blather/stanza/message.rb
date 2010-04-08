@@ -275,7 +275,8 @@ class Stanza
     #
     # @return [String]
     def xhtml
-      self.xhtml_node.to_xhtml
+      body = self.xhtml_node.find_first('ns:body', :ns => HTML_BODY_NS)
+      body && body.to_xhtml
     end
 
     # Set the message xhtml
@@ -334,10 +335,11 @@ class Stanza
     
     def delay
       delay = find_first('ns:x', :ns => 'jabber:x:delay')
-      return unless delay
+      stamp = delay && delay[:stamp]
+      return unless stamp
       # Make sure time is UTC
-      delay += "Z" unless delay[-1..-1] == "Z"
-      Time.parse(delay[:stamp])
+      stamp += "Z" unless stamp[-1..-1] == "Z"
+      Time.parse(stamp)
     end
   end
 
