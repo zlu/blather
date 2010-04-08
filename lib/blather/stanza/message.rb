@@ -275,8 +275,7 @@ class Stanza
     #
     # @return [String]
     def xhtml
-      body = self.xhtml_node.find_first('ns:body', :ns => HTML_BODY_NS)
-      body && body.to_xhtml
+      self.xhtml_node.to_xhtml
     end
 
     # Set the message xhtml
@@ -284,10 +283,8 @@ class Stanza
     #
     # @param [#to_s] valid xhtml
     def xhtml=(xhtml_body)
-      xhtml_body = Nokogiri::XML(xhtml_body)
-      xhtml_body.children.each {|node|
-        self.xhtml_node << node
-      }
+      xhtml_body = Nokogiri::HTML.fragment(xhtml_body)
+      self.xhtml_node << xhtml_body
     end
 
     # Get the message subject
