@@ -1,3 +1,5 @@
+require "time"
+
 module Blather
 class Stanza
 
@@ -333,8 +335,9 @@ class Stanza
     def delay
       delay = find_first('ns:x', :ns => 'jabber:x:delay')
       return unless delay
-      klass = (Time.respond_to?(:zone) && Time.zone) || Time
-      klass.parse(delay[:stamp])
+      # Make sure time is UTC
+      delay += "Z" unless delay[-1..-1] == "Z"
+      Time.parse(delay[:stamp])
     end
   end
 
