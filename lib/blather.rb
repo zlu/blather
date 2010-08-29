@@ -19,8 +19,8 @@ $:.unshift(File.dirname(__FILE__))
   blather/roster
   blather/roster_item
   blather/xmpp_node
-
   blather/stanza
+  
   blather/stanza/iq
   blather/stanza/iq/query
   blather/stanza/iq/roster
@@ -36,6 +36,8 @@ $:.unshift(File.dirname(__FILE__))
   blather/stanza/presence
   blather/stanza/presence/status
   blather/stanza/presence/subscription
+  blather/stanza/presence/muc
+  blather/stanza/presence/muc_user
 
   blather/stanza/pubsub
   blather/stanza/pubsub/affiliations
@@ -54,7 +56,8 @@ $:.unshift(File.dirname(__FILE__))
   blather/stanza/pubsub_owner/purge
   
   blather/stanza/muc/invite
-  blather/stanza/muc/join
+  
+  blather/stanza/dialback
 
   blather/stream
   blather/stream/client

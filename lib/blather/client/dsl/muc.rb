@@ -13,10 +13,10 @@ module DSL
     end
     
     def join(reason = nil)
-      status       = Stanza::Presence::Status.new
-      status.to    = "#{@room}/#{@nickname}"
-      status       << Stanza::MUC::Join.new(@password)
-      write status
+      join          = Stanza::Presence::MUC.new
+      join.to       = "#{@room}/#{@nickname}"
+      join.password = @password
+      write join
     end
     
     # <presence

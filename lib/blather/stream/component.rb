@@ -32,7 +32,7 @@ class Stream
       STREAM
       send start_stream.gsub(/\s+/, ' ')
     end
-  end #Client
+  end #Component
 
 end #Stream
 end #Blather

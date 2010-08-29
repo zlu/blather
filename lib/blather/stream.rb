@@ -149,6 +149,9 @@ module Blather
       @error = e
       send "<stream:error><xml-not-well-formed xmlns='#{StreamError::STREAM_ERR_NS}'/></stream:error>"
       stop
+    rescue => e
+      Blather.logger.debug e
+      Blather.logger.debug e.backtrace.join("\n")
     end
 
     # Called by EM after the connection has started

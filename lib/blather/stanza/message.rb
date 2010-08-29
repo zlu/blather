@@ -330,6 +330,14 @@ class Stanza
       find_first('thread')[:parent] = parent
     end
     
+    def delay=(value)
+      unless b = find_first('ns:x', :ns => 'jabber:x:delay')
+        h << (b = XMPPNode.new('ns:x', self.document))
+        b.namespace = 'jabber:x:delay'
+      end
+      b[:stamp] = value
+    end
+    
     def delay
       delay = find_first('ns:x', :ns => 'jabber:x:delay')
       stamp = delay && delay[:stamp]
