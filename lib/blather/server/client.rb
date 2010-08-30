@@ -36,18 +36,10 @@ module Server
     end
     
     def call_handler_for(type, stanza)
-      return unless handler = @handlers[type]
-      handler.find do |handle|
-        catch(:pass) { handle.call(stanza) }
-      end
+      method = "handle_#{type}"
+      send(method, stanza) if respond_to?(method)
     end
-    
-    def handle(name, meth = nil, &block)
-      prok = meth||block||method("handle_#{name}")
-      @handlers[name] ||= []
-      @handlers[name] << prok
-    end
-    
+        
     # Protocol
     
     [:started, :stopped, :ready, :negotiating].each do |state|
@@ -65,8 +57,53 @@ module Server
         >
       STREAM
       send start_stream.gsub(/\s+/, ' ')
+      
+      # <stream:features>
+      #   <starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'>
+      #     <required/>
+      #   </starttls>
+      #   <mechanisms xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>
+      #     <mechanism>DIGEST-MD5</mechanism>
+      #     <mechanism>PLAIN</mechanism>
+      #   </mechanisms>
+      # </stream:features>
     end
-    handle :stream
+    
+    
+    # <starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'/>
+    def handle_startls
+      # <proceed xmlns='urn:ietf:params:xml:ns:xmpp-tls'/>
+    end
+
+    # <auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl'
+    #       mechanism='DIGEST-MD5'/>    
+    def handle_auth
+      # <challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>
+      # cmVhbG09InNvbWVyZWFsbSIsbm9uY2U9Ik9BNk1HOXRFUUdtMmhoIixxb3A9ImF1dGgi
+      # LGNoYXJzZXQ9dXRmLTgsYWxnb3JpdGhtPW1kNS1zZXNzCg==
+      # </challenge>
+    end
+    
+    
+    # <response xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>
+    # dXNlcm5hbWU9InNvbWVub2RlIixyZWFsbT0ic29tZXJlYWxtIixub25jZT0i
+    # T0E2TUc5dEVRR20yaGgiLGNub25jZT0iT0E2TUhYaDZWcVRyUmsiLG5jPTAw
+    # MDAwMDAxLHFvcD1hdXRoLGRpZ2VzdC11cmk9InhtcHAvZXhhbXBsZS5jb20i
+    # LHJlc3BvbnNlPWQzODhkYWQ5MGQ0YmJkNzYwYTE1MjMyMWYyMTQzYWY3LGNo
+    # YXJzZXQ9dXRmLTgK
+    # </response>
+
+    # <response xmlns='urn:ietf:params:xml:ns:xmpp-sasl'/>
+    def handle_response
+      # 1)
+      # <challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>
+      # cnNwYXV0aD1lYTQwZjYwMzM1YzQyN2I1NTI3Yjg0ZGJhYmNkZmZmZAo=
+      # </challenge>
+      
+      # <success xmlns='urn:ietf:params:xml:ns:xmpp-sasl'/>
+      
+    end
+    
   end
 end
 end
