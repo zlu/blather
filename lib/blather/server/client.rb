@@ -60,11 +60,10 @@ module Server
       
       # <stream:features>
       #   <starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'>
-      #     <required/>
       #   </starttls>
       #   <mechanisms xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>
       #     <mechanism>DIGEST-MD5</mechanism>
-      #     <mechanism>PLAIN</mechanism>
+      #     <mechanism>ANONYMOUS</mechanism>
       #   </mechanisms>
       # </stream:features>
     end
@@ -99,7 +98,8 @@ module Server
       # <challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>
       # cnNwYXV0aD1lYTQwZjYwMzM1YzQyN2I1NTI3Yjg0ZGJhYmNkZmZmZAo=
       # </challenge>
-      
+      # 
+      # 2)
       # <success xmlns='urn:ietf:params:xml:ns:xmpp-sasl'/>
       
     end
