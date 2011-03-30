@@ -1,4 +1,6 @@
 # Require the necessary files
+$:.unshift(File.dirname(__FILE__))
+
 %w[
   rubygems
   eventmachine
@@ -24,8 +26,8 @@
   blather/roster
   blather/roster_item
   blather/xmpp_node
-
   blather/stanza
+
   blather/stanza/iq
   blather/stanza/iq/query
   blather/stanza/iq/command
@@ -34,13 +36,20 @@
   blather/stanza/iq/s5b
   blather/stanza/iq/si
   blather/stanza/iq/vcard
+  blather/stanza/iq/muc/admin
+  blather/stanza/iq/muc/owner
+
   blather/stanza/disco
   blather/stanza/disco/disco_info
   blather/stanza/disco/disco_items
+
   blather/stanza/message
+
   blather/stanza/presence
   blather/stanza/presence/status
   blather/stanza/presence/subscription
+  blather/stanza/presence/muc
+  blather/stanza/presence/muc_user
 
   blather/stanza/pubsub
   blather/stanza/pubsub/affiliations
@@ -57,6 +66,10 @@
   blather/stanza/pubsub_owner
   blather/stanza/pubsub_owner/delete
   blather/stanza/pubsub_owner/purge
+
+  blather/stanza/muc/invite
+
+  blather/stanza/dialback
 
   blather/stanza/x
 

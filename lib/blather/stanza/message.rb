@@ -1,3 +1,5 @@
+require "time"
+
 module Blather
 class Stanza
 
@@ -369,6 +371,23 @@ class Stanza
         state.namespace = CHAT_STATE_NS
         self << state
       end
+    end
+
+    def delay=(value)
+      unless b = find_first('ns:x', :ns => 'jabber:x:delay')
+        h << (b = XMPPNode.new('ns:x', self.document))
+        b.namespace = 'jabber:x:delay'
+      end
+      b[:stamp] = value
+    end
+
+    def delay
+      delay = find_first('ns:x', :ns => 'jabber:x:delay')
+      stamp = delay && delay[:stamp]
+      return unless stamp
+      # Make sure time is UTC
+      stamp += "Z" unless stamp[-1..-1] == "Z"
+      Time.parse(stamp)
     end
   end
 

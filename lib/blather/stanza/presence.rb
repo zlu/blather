@@ -70,13 +70,16 @@ class Stanza
   #
   # @handler :presence
   class Presence < Stanza
-    VALID_TYPES = [ :unavailable,
-                    :subscribe,
-                    :subscribed,
-                    :unsubscribe,
-                    :unsubscribed,
+    SUBSCRIBE_TYPES = [ :subscribe,
+                        :subscribed,
+                        :unsubscribe,
+                        :unsubscribed
+                      ].freeze
+
+    VALID_TYPES = ([:unavailable,
                     :probe,
-                    :error].freeze
+                    :error
+                  ] + SUBSCRIBE_TYPES).freeze
 
     register :presence
 
@@ -85,17 +88,29 @@ class Stanza
     # on the type attribute.
     # If neither is found it instantiates a Presence object
     def self.import(node) # :nodoc:
-      klass = case node['type']
-      when nil, 'unavailable' then Status
-      when /subscribe/        then Subscription
-      else self
-      end
+      klass = find_klass(node)
       klass.new.inherit(node)
+    end
+
+    def self.find_klass(node)
+      presence = self.new.inherit(node)
+      return MUC if presence.muc?
+      return Subscription if SUBSCRIBE_TYPES.include?(presence.type)
+      return Status if presence.status?
+      self
     end
 
     # Ensure element_name is "presence" for all subclasses
     def self.new
       super :presence
+    end
+
+    def muc?
+      find_first('ns:x', :ns => 'http://jabber.org/protocol/muc')
+    end
+
+    def status?
+      unavailable? || !type
     end
 
     # Check if the IQ is of type :unavailable
