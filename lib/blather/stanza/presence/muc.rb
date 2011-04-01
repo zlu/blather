@@ -4,18 +4,18 @@ class Presence
 
   class MUC < Presence
     MUC_NS = "http://jabber.org/protocol/muc"
-    
+
     register :muc_join, :muc_join
-    
+
     def password
       create_muc.content_from :password
       create_password.content
     end
-    
+
     def password=(value)
       create_muc.set_content_for :password
     end
-    
+
     private
       def create_muc
         unless create_muc = find_first('ns:x', :ns => MUC_NS)

@@ -7,7 +7,7 @@ module Server
     def self.start(client, host = "0.0.0.0", port = 5222)
       EM.start_server(host, port, self, client)
     end
-    
+
     def initialize(client)
       super()
       @client = client
@@ -28,6 +28,7 @@ module Server
 
     rescue ParseError => e
       @error = e
+      Blather.logger.debug e
       send_data "<stream:error><xml-not-well-formed xmlns='#{StreamError::STREAM_ERR_NS}'/></stream:error>"
       stop
     rescue => e
